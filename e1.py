@@ -1,5 +1,6 @@
 pass       
 
+#Clase libro
 class Libro:
     def __init__(self, id, titulo, genero, ISBN, editorial, autors):
         self.id = id
