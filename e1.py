@@ -1,3 +1,5 @@
+import csv
+
 class Libro:
     def __init__(self, id, titulo, genero, isbn, editorial, autores):
         self.__id = id
@@ -37,7 +39,11 @@ class Libro:
         pass
         
 def leer_libro():
-    pass
+    with open(main_file) as file:
+        csvreader = csv.DictReader(file)
+        for row in csvreader:
+            obj = Libro(row["ID"], row["Titulo"], row["Genero"], row["ISBN"], row["Editorial"], row["Autor"])
+            obj_Libros.append(obj)
 
 def listar_libros():
     pass
@@ -67,4 +73,5 @@ def guardar_libros():
     pass
 
 if __name__ == "__main__":
-    pass
+    main_file = 'example_libro.csv'
+    obj_Libros = []
