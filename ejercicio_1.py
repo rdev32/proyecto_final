@@ -83,8 +83,16 @@ def ordenar_libros():
 def buscar_libro_por_isbn_titulo():
     pass
 
-def buscar_libro_por_autor_editorial_genero():
-    pass
+def buscar_libro_por_autor_editorial_genero(autor='', editorial='', genero='') -> list:
+    result = []
+    for libro in obj_Libros:
+        if autor != '' and libro.get_autores().lower().find(autor) != -1:
+            result.append(libro)
+        elif editorial != ''  and libro.get_editorial().lower() == editorial:
+            result.append(libro)
+        elif genero != ''  and libro.get_genero().lower() == genero:
+            result.append(libro)
+    return result
 
 def buscar_libro_por_no_autores():
     pass
