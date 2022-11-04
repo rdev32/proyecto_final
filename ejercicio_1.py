@@ -94,8 +94,12 @@ def buscar_libro_por_autor_editorial_genero(autor='', editorial='', genero='') -
             result.append(libro)
     return result
 
-def buscar_libro_por_no_autores():
-    pass
+def buscar_libro_por_no_autores(num_autores:int=0) -> list:
+    result = []
+    for libro in obj_Libros:
+        if len(libro.get_autores().split(';')) == num_autores:
+            result.append(libro)
+    return result
 
 def actualizar_libro():
     pass
