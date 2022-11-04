@@ -53,16 +53,16 @@ class Program():
         cmd = self.menu
 
 
-def leer_libro():
+def leer_libro() -> bool:
     if os.path.exists(main_file):
         with open(main_file) as file:
             csvreader = csv.DictReader(file)
             for row in csvreader:
                 obj = Libro(row["ID"], row["Titulo"], row["Genero"], row["ISBN"], row["Editorial"], row["Autor"])
                 obj_Libros.append(obj)
-        print("Archivo abierto")
+        return True
     else:
-        print("El archivo no existe")
+        return False
 
 def listar_libros():
     pass
