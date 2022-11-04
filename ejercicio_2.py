@@ -1,3 +1,4 @@
+# Generar los menus desde request
 def listar_por_generacion():
     pass
 
