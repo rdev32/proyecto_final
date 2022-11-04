@@ -25,7 +25,7 @@
         "submenu": {
             "a": "Buscar por titulo",
             "b": "Buscar por ISBN",
-            "c": "Regresar"
+            "r": "Regresar"
         }
     },
     "f": {
@@ -40,7 +40,7 @@
             "a": "Buscar por autor",
             "b": "Buscar por editorial",
             "c": "Buscar por genero",
-            "d": "Regresar"
+            "r": "Regresar"
         }
     },
     "h": {
