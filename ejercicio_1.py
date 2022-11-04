@@ -104,8 +104,18 @@ def buscar_libro_por_no_autores(num_autores:int=0) -> list:
 def actualizar_libro():
     pass
 
-def guardar_libros():
-    pass
+def guardar_libros() -> bool:
+    try:
+        field_header = ['ID' , 'Titulo' , 'Genero' , 'ISBN' , 'Editorial' , 'Autor']
+        with open( main_file, 'w') as csv_file:
+            w_csv = csv.writer(csv_file)
+            w_csv.writerow(field_header)
+            for data in obj_Libros:
+                w_csv.writerow([data.get_id(), data.get_titulo(), data.get_genero(), data.get_isbn(), data.get_editorial(), data.get_autores()])
+        csv_file.close()
+        return True
+    except:
+        return False
 
 if __name__ == "__main__":
     main_file = 'example_libro.csv'
