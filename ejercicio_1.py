@@ -1,6 +1,7 @@
 from book import Libro
 import os
 import json
+import csv
 
 class Program():
     def __init__(self, filename):
@@ -53,7 +54,15 @@ class Program():
 
 
 def leer_libro():
-    pass
+    if os.path.exists(main_file):
+        with open(main_file) as file:
+            csvreader = csv.DictReader(file)
+            for row in csvreader:
+                obj = Libro(row["ID"], row["Titulo"], row["Genero"], row["ISBN"], row["Editorial"], row["Autor"])
+                obj_Libros.append(obj)
+        print("Archivo abierto")
+    else:
+        print("El archivo no existe")
 
 def listar_libros():
     pass
@@ -83,6 +92,9 @@ def guardar_libros():
     pass
 
 if __name__ == "__main__":
+    main_file = 'example_libro.csv'
+    obj_Libros = []
+    
     program = Program('menu_e1.json')
     program.init()
     del program
