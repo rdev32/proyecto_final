@@ -70,8 +70,12 @@ def listar_libros():
 def agregar_libro():
     pass
 
-def eliminar_libro():
-    pass
+def eliminar_libro(index_list:int) -> bool:
+    if (index_list >= 0 and index_list < len(obj_Libros)):
+        obj_Libros.pop(index_list)
+        return True
+    else:
+        return False
 
 def ordenar_libros():
     pass
