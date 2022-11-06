@@ -1,4 +1,5 @@
-id,titulo,genero,isbn,editorial,autor
-1,Libro A,Ficcion,111-222-333,Santillana,Karen Ruiz
-2,Libro B,Comedia,444-555-666,Colmena,Jakub Fernandez;Calixto Mendez
-3,Libro C,Drama,777-888-999,Planeta Peru,Jose Cabrera
+id,titulo,genero,isbn,editorial,autor
+1,Libro A,Ficcion,111-222-333,Santillana,Karen Ruiz
+2,Libro B,Comedia,444-555-666,Colmena,"Jakub Fernandez,Calixto Mendez"
+3,Libro C,Drama,777-888-999,Planeta Peru,Jose Cabrera
+hola,titulo,genero,isbn,editorial,"autor1,autor2"
