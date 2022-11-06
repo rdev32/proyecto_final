@@ -59,7 +59,7 @@ def leer_libro(filename: str) -> list:
         with open(filename) as file:
             csvreader = csv.DictReader(file)
             for row in csvreader:
-                obj = Libro(row["ID"], row["Titulo"], row["Genero"], row["ISBN"], row["Editorial"], row["Autor"])
+                obj = Libro(row["id"], row["titulo"], row["genero"], row["isbn"], row["editorial"], row["autor"])
                 lista.append(obj)
         return lista
     except:
@@ -107,7 +107,7 @@ def actualizar_libro():
 
 def guardar_libros(filename: str, books: list = None) -> bool:
     try:
-        field_header = ['ID' , 'Titulo' , 'Genero' , 'ISBN' , 'Editorial' , 'Autor']
+        field_header = ['id' , 'titulo' , 'genero' , 'isbn' , 'editorial' , 'autor']
         with open( filename, 'w') as csv_file:
             w_csv = csv.writer(csv_file)
             w_csv.writerow(field_header)
