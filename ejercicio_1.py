@@ -53,16 +53,17 @@ class Program():
         cmd = self.menu
 
 
-def leer_libro() -> bool:
-    if os.path.exists(main_file):
-        with open(main_file) as file:
+def leer_libro(filename: str) -> list:
+    try:
+        lista = []
+        with open(filename) as file:
             csvreader = csv.DictReader(file)
             for row in csvreader:
                 obj = Libro(row["ID"], row["Titulo"], row["Genero"], row["ISBN"], row["Editorial"], row["Autor"])
-                obj_Libros.append(obj)
-        return True
-    else:
-        return False
+                lista.append(obj)
+        return lista
+    except:
+        return None
 
 def listar_libros():
     pass
@@ -70,9 +71,9 @@ def listar_libros():
 def agregar_libro():
     pass
 
-def eliminar_libro(index_list:int) -> bool:
-    if (index_list >= 0 and index_list < len(obj_Libros)):
-        obj_Libros.pop(index_list)
+def eliminar_libro(index_list: int, books: list = None) -> bool:
+    if (index_list >= 0 and index_list < len(books)):
+        books.pop(index_list)
         return True
     else:
         return False
@@ -83,34 +84,34 @@ def ordenar_libros():
 def buscar_libro_por_isbn_titulo():
     pass
 
-def buscar_libro_por_autor_editorial_genero(autor='', editorial='', genero='') -> list:
+def buscar_libro_por_autor_editorial_genero(autor:str = '', editorial:str = '', genero: str = '', books: list = None) -> list:
     result = []
-    for libro in obj_Libros:
-        if autor != '' and libro.get_autores().lower().find(autor) != -1:
-            result.append(libro)
-        elif editorial != ''  and libro.get_editorial().lower() == editorial:
-            result.append(libro)
-        elif genero != ''  and libro.get_genero().lower() == genero:
-            result.append(libro)
+    for book in books:
+        if autor != '' and book.get_autores().lower().find(autor) != -1:
+            result.append(book)
+        elif editorial != ''  and book.get_editorial().lower() == editorial:
+            result.append(book)
+        elif genero != ''  and book.get_genero().lower() == genero:
+            result.append(book)
     return result
 
-def buscar_libro_por_no_autores(num_autores:int=0) -> list:
+def buscar_libro_por_no_autores(num_autores: int = 0, books: list = None) -> list:
     result = []
-    for libro in obj_Libros:
-        if len(libro.get_autores().split(';')) == num_autores:
-            result.append(libro)
+    for book in books:
+        if len(book.get_autores().split(';')) == num_autores:
+            result.append(book)
     return result
 
 def actualizar_libro():
     pass
 
-def guardar_libros() -> bool:
+def guardar_libros(filename: str, books: list = None) -> bool:
     try:
         field_header = ['ID' , 'Titulo' , 'Genero' , 'ISBN' , 'Editorial' , 'Autor']
-        with open( main_file, 'w') as csv_file:
+        with open( filename, 'w') as csv_file:
             w_csv = csv.writer(csv_file)
             w_csv.writerow(field_header)
-            for data in obj_Libros:
+            for data in books:
                 w_csv.writerow([data.get_id(), data.get_titulo(), data.get_genero(), data.get_isbn(), data.get_editorial(), data.get_autores()])
         csv_file.close()
         return True
@@ -118,9 +119,6 @@ def guardar_libros() -> bool:
         return False
 
 if __name__ == "__main__":
-    main_file = 'example_libro.csv'
-    obj_Libros = []
-    
     program = Program('menu_e1.json')
     program.init()
     del program
