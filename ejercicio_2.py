@@ -14,25 +14,28 @@ def generar_info(index: int):
         yield nombre, url, lista
 
 def show_pokemones(lista, int_start = 0, int_max = 20):
-    for i in range(int_start, min(int_start + int_max, len(lista))):
-        for l1 in generar_info(lista[i]):
-            print(f"Nombre: {l1[0]}\nURL: {l1[1]}\nHabilidades:", *l1[2], "\n")
+    if lista == None:
+        print("No hay resultados")
+    else:
+        for i in range(int_start, min(int_start + int_max, len(lista))):
+            for l1 in generar_info(lista[i]):
+                print(f"Nombre: {l1[0]}\nURL: {l1[1]}\nHabilidades:", *l1[2], "\n")
 
 
 def listar_por_generacion(int_gen: int) -> list:
     req = requests.get("https://pokeapi.co/api/v2/generation/" + str(int_gen))
-    with req as data:
+    if req.status_code == requests.codes.ok:
         lista = []
-        json = data.json()
+        json = req.json()
         for result in json["pokemon_species"]:
             lista.append( result["url"].split("/")[-2] )
         return list(set(lista))
 
 def listar_por_forma(shape_str: str) -> list:
     req = requests.get("https://pokeapi.co/api/v2/pokemon-shape/" + shape_str)
-    with req as data:
+    if req.status_code == requests.codes.ok:
         lista = []
-        json = data.json()
+        json = req.json()
 
         for result in json["pokemon_species"]:
             lista.append( result["url"].split("/")[-2] )
@@ -40,27 +43,27 @@ def listar_por_forma(shape_str: str) -> list:
 
 def listar_por_habilidad(ability: str) -> list:
     req = requests.get("https://pokeapi.co/api/v2/ability/" + ability)
-    with req as data:
+    if req.status_code == requests.codes.ok:
         lista = []
-        json = data.json()
+        json = req.json()
         for result in json["pokemon"]:
             lista.append( result["pokemon"]["url"].split("/")[-2] )
         return list(set(lista))
 
 def listar_por_habitad(habitat: str) -> list:
     req = requests.get("https://pokeapi.co/api/v2/pokemon-habitat/" + habitat)
-    with req as data:
+    if req.status_code == requests.codes.ok:
         lista = []
-        json = data.json()
+        json = req.json()
         for result in json["pokemon_species"]:
             lista.append( result["url"].split("/")[-2] )
         return list(set(lista))
 
 def listar_por_tipo(tipo: str) -> list:
     req = requests.get("https://pokeapi.co/api/v2/type/" + tipo)
-    with req as data:
+    if req.status_code == requests.codes.ok:
         lista = []
-        json = data.json()
+        json = req.json()
         for result in json["pokemon"]:
             lista.append( result["pokemon"]["url"].split("/")[-2] )
         return list(set(lista))
@@ -78,9 +81,11 @@ sugerencias = [ "Sugerencias: 1, 2, 3, 4 ...", "Sugerencias: ball, fish, blob, a
 
 menu_level = 0
 
-def Ejecutar_Listado(menu_level, param, list_start):
+def Ejecutar_Listado(menu_level, param, list_start) -> bool:
     current_list = []
     if (menu_level == 1):
+        if not param.isdigit():
+            return False
         current_list = listar_por_generacion(min(int(param), 8))
     elif (menu_level == 2):
         current_list = listar_por_forma(param)
@@ -92,6 +97,8 @@ def Ejecutar_Listado(menu_level, param, list_start):
         current_list = listar_por_tipo(param)
     
     show_pokemones(current_list,list_start, 5)
+    
+    return True
     
 def menu_show(number):
     next = 0
@@ -105,16 +112,17 @@ def menu_show(number):
                 menu_level = 0
                 break
             
-        Ejecutar_Listado(menu_level, param, next)
-        
-        ipt = input("Escriba A para listar los siguientes o S para salir al menu: ").lower().strip()
-        os.system('cls')
-        
-        if (ipt == "a"): 
-            next += 5
-        elif (ipt == "s"):
-            menu_level = 0
-            break
+        if len(param) > 0:
+            success = Ejecutar_Listado(menu_level, param, next)
+            if (success):
+                ipt = input("Escriba A para listar los siguientes o S para salir al menu: ").lower().strip()
+                os.system('cls')
+                
+                if (ipt == "a"): 
+                    next += 5
+                elif (ipt == "s"):
+                    menu_level = 0
+                    break
 
         
 if __name__ == "__main__":
