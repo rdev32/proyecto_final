@@ -1,7 +1,16 @@
 import requests
 
 def generar_info(index: int):
-    pass
+    req = requests.get("https://pokeapi.co/api/v2/pokemon/" + str(index))
+    with req as data:
+        nombre = data.json()["name"]
+        url = data.json()["sprites"]["front_default"]
+        lista = []
+        
+        for v in req.json()["abilities"]:
+            lista.append( v["ability"]["name"] )
+            
+        yield nombre, url, lista
 
 def show_pokemones(lista, int_start = 0, int_max = 20):
     for i in range(int_start, min(int_start + int_max, len(lista))):
