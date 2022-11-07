@@ -1,14 +1,17 @@
 from book import Libro
 import csv
 
-def leer_libro(filename):
-    buffer = []
-    with open(filename, 'r') as file:
-        csvreader = csv.DictReader(file)
-        for row in csvreader:
-            item = Libro(row["id"], row["titulo"], row["genero"], row["isbn"], row["editorial"], row["autor"])
-            buffer.append(item)
-    return buffer
+def leer_libro(filename: str) -> list:
+    try:
+        buffer = []
+        with open(filename, 'r') as file:
+            csvreader = csv.DictReader(file)
+            for row in csvreader:
+                item = Libro(row["id"], row["titulo"], row["genero"], row["isbn"], row["editorial"], row["autor"])
+                buffer.append(item)
+        return buffer
+    except:
+        return None
 
 def listar_libros(books):
     for book in books:
@@ -25,7 +28,7 @@ def agregar_libro(books):
     libro = Libro(id=len(books) + 1, titulo=titulo, genero=genero, isbn=isbn, editorial=editorial, autores=autor)
     books.append(libro)
 
-def eliminar_libro(index_list: int, books):
+def eliminar_libro(index_list: int, books: list) -> bool:
     if (index_list >= 0 and index_list < len(books)):
         books.pop(index_list)
 
@@ -44,7 +47,7 @@ def buscar_libro_por_isbn_titulo(books, isbn = '', title = ''):
                 ref = book
     return ref
 
-def buscar_libro_por_autor_editorial_genero(books, autor='', editorial='', genero='') -> list:
+def buscar_libro_por_autor_editorial_genero(books: list, autor:str = '', editorial:str = '', genero: str = '') -> list:
     result = []
     for libro in books:
         if autor != '' and libro.get_autores().lower().find(autor) != -1:
@@ -76,7 +79,7 @@ def actualizar_libro(books: list, index):
 
 def guardar_libros(filename, books) -> bool:
     try:
-        field_header = ['ID' , 'Titulo' , 'Genero' , 'ISBN' , 'Editorial' , 'Autor']
+        field_header = ['id' , 'titulo' , 'genero' , 'isbn' , 'editorial' , 'autor']
         with open( filename, 'w') as csv_file:
             w_csv = csv.writer(csv_file)
             w_csv.writerow(field_header)
