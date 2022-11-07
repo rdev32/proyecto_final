@@ -66,15 +66,15 @@ def buscar_libro_por_no_autores(books, num_autores: int = 0) -> list:
             result.append(libro)
     return result
 
-def actualizar_libro(books: list, index, title='', genre='', isbn='', editorial='', author='' ):
-    if (index >= len(books)):
+def actualizar_libro(books: list, index: int, title='', genre='', isbn='', editorial='', author='' ):
+    if (index - 1 > len(books)):
         print("Ese ID no existe")
         return
         
     elif title != '':
         libro = buscar_libro_por_isbn_titulo(books, title=title)
         libro.set_titulo(title)
-        books[index] = libro
+        books[index - 1] = libro
     elif genre != '':
         libro = buscar_libro_por_autor_editorial_genero(books, genero=genre)
         for book in books:
@@ -82,7 +82,7 @@ def actualizar_libro(books: list, index, title='', genre='', isbn='', editorial=
     elif isbn != '':
         libro = buscar_libro_por_isbn_titulo(books, isbn=isbn)
         libro.set_titulo(isbn)
-        books[index] = libro
+        books[index - 1] = libro
     elif editorial != '':
         libro = buscar_libro_por_autor_editorial_genero(books, editorial=editorial)
         for book in books:
@@ -320,7 +320,7 @@ if __name__ == "__main__":
                     os.system('cls')
                     print("\t\tSeleccionaste: Editar titulo")
                     listar_libros(libros)
-                    index = input("Ingrese el id(numero) del libro: ")
+                    index = int(input("Ingrese el id(numero) del libro: "))
                     titulo = input("Ingrese el titulo nuevo: ")
                     actualizar_libro(libros, index=index, title=titulo)
                     input("Presione cualquier tecla para regresar")
@@ -329,7 +329,7 @@ if __name__ == "__main__":
                     os.system('cls')
                     print("\t\tSeleccionaste: Editar genero")
                     listar_libros(libros)
-                    index = input("Ingrese el id(numero) del libro: ")
+                    index = int(input("Ingrese el id(numero) del libro: "))
                     genero = input("Ingrese el nuevo genero: ")
                     actualizar_libro(libros, index=index, genre=genero)
                     input("Presione cualquier tecla para regresar")
@@ -338,7 +338,7 @@ if __name__ == "__main__":
                     os.system('cls')
                     print("\t\tSeleccionaste: Editar ISBN")
                     listar_libros(libros)
-                    index = input("Ingrese el id(numero) del libro: ")
+                    index = int(input("Ingrese el id(numero) del libro: "))
                     isbn = input("Ingrese nueva ISBN: ")
                     actualizar_libro(libros, index=index, isbn=isbn)
                     input("Presione cualquier tecla para regresar")
@@ -347,7 +347,7 @@ if __name__ == "__main__":
                     os.system('cls')
                     print("\t\tSeleccionaste: Editar editorial")
                     listar_libros(libros)
-                    index = input("Ingrese el id(numero) del libro: ")
+                    index = int(input("Ingrese el id(numero) del libro: "))
                     editorial = input("Ingrese editorial: ")
                     libro = actualizar_libro(libros, index=index, editorial=editorial)
                     input("Presione cualquier tecla para regresar")
@@ -356,7 +356,7 @@ if __name__ == "__main__":
                     os.system('cls')
                     print("\t\tSeleccionaste: Editar autor(es)")
                     listar_libros(libros)
-                    index = input("Ingrese el id(numero) del libro: ")
+                    index = int(input("Ingrese el id(numero) del libro: "))
                     autores = input("Ingrese nuevos autor(es): ")
                     libro = actualizar_libro(libros, index=index, author=autores)
                     input("Presione cualquier tecla para regresar")
