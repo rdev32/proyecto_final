@@ -98,7 +98,7 @@ def buscar_libro_por_autor_editorial_genero(autor:str = '', editorial:str = '', 
 def buscar_libro_por_no_autores(num_autores: int = 0, books: list = None) -> list:
     result = []
     for book in books:
-        if len(book.get_autores().split(';')) == num_autores:
+        if len(book.get_autores().split(',')) == num_autores:
             result.append(book)
     return result
 
