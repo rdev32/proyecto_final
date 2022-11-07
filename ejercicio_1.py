@@ -1,113 +1,82 @@
 from book import Libro
-import os
-import json
 import csv
 
-class Program():
-    def __init__(self, filename):
-        self.filename = filename
-        self.running: bool = True
-        self.menu: dict
-        self.commands: list = []
-        self.submenu: list = []
-        self.on_submenu = False
-        self.selection: str
+def leer_libro(filename):
+    buffer = []
+    with open(filename, 'r') as file:
+        csvreader = csv.DictReader(file)
+        for row in csvreader:
+            item = Libro(row["id"], row["titulo"], row["genero"], row["isbn"], row["editorial"], row["autor"])
+            buffer.append(item)
+    return buffer
 
-    def init(self):
-        self.clear()
-        self.load_menues()
-        while self.running:
-            self.clear()
-            self.display()
-            self.events()
+def listar_libros(books):
+    for book in books:
+        print(book)
 
-    def events(self):
-        self.selection = input('>> ')[0].lower()
-        if self.selection  == 's':
-            self.running = False
-        elif self.selection == 'e' or 'g' or 'i':
-            self.on_submenu = True
-            if self.selection == 'r':
-                self.on_submenu = not self.on_submenu
-        
-    def clear(self):
-        os.system('cls')
+def agregar_libro(books):
 
-    def display(self):
-        if self.on_submenu:
-            print(f"\tSeleccionaste: {self.menu[self.selection]['name']}\nEscriba la letra de la opcion que desea realizar:")
-            for key, value in zip(self.menu[self.selection]['submenu'].keys(), self.menu[self.selection]['submenu'].values()):
-                print(f"{key.upper()} - {value}")
-        else:
-            print("\tBienvenido al menu principal\nEscriba la letra de la opcion que desea realizar:")
-            for key in self.menu:
-                print(f"{key.upper()} - {self.menu[key]['name']}")
+    titulo= input("Ingrese Titulo")
+    genero = input("Ingrese Genero")
+    isbn = input("Ingrese ISBN")
+    editorial = input("Ingrese Editorial")
+    autor = input("Ingrese Autor(es)")
 
+    libro = Libro(id=len(books) + 1, titulo=titulo, genero=genero, isbn=isbn, editorial=editorial, autores=autor)
+    books.append(libro)
 
-    def load_menues(self):
-        with open(self.filename, 'r') as file:
-            data = json.load(file)
-            self.menu = { key: value for key, value in zip(data.keys(), data.values()) }
-    
-    def load_commands(self):
-        cmd = self.menu
-
-
-def leer_libro(filename: str) -> list:
-    try:
-        lista = []
-        with open(filename) as file:
-            csvreader = csv.DictReader(file)
-            for row in csvreader:
-                obj = Libro(row["id"], row["titulo"], row["genero"], row["isbn"], row["editorial"], row["autor"])
-                lista.append(obj)
-        return lista
-    except:
-        return None
-
-def listar_libros():
-    pass
-
-def agregar_libro():
-    pass
-
-def eliminar_libro(index_list: int, books: list = None) -> bool:
+def eliminar_libro(index_list: int, books):
     if (index_list >= 0 and index_list < len(books)):
         books.pop(index_list)
-        return True
-    else:
-        return False
 
-def ordenar_libros():
-    pass
+def ordenar_libros(books: list):
+    return sorted(books, key=lambda book: book.get_titulo())
 
-def buscar_libro_por_isbn_titulo():
-    pass
+def buscar_libro_por_isbn_titulo(books, isbn = '', title = ''):
+    ref: Libro
+    if isbn != '':
+        for book in books:
+            if book.get_isbn() == isbn:
+                ref = book
+    elif title != '':
+        for book in books:
+            if book.get_titulo() == title:
+                ref = book
+    return ref
 
-def buscar_libro_por_autor_editorial_genero(autor:str = '', editorial:str = '', genero: str = '', books: list = None) -> list:
+def buscar_libro_por_autor_editorial_genero(books, autor='', editorial='', genero='') -> list:
     result = []
-    for book in books:
-        if autor != '' and book.get_autores().lower().find(autor) != -1:
-            result.append(book)
-        elif editorial != ''  and book.get_editorial().lower() == editorial:
-            result.append(book)
-        elif genero != ''  and book.get_genero().lower() == genero:
-            result.append(book)
+    for libro in books:
+        if autor != '' and libro.get_autores().lower().find(autor) != -1:
+            result.append(libro)
+        elif editorial != ''  and libro.get_editorial().lower() == editorial:
+            result.append(libro)
+        elif genero != ''  and libro.get_genero().lower() == genero:
+            result.append(libro)
     return result
 
-def buscar_libro_por_no_autores(num_autores: int = 0, books: list = None) -> list:
+def buscar_libro_por_no_autores(books, num_autores: int = 0) -> list:
     result = []
-    for book in books:
-        if len(book.get_autores().split(',')) == num_autores:
-            result.append(book)
+    for libro in books:
+        if len(libro.get_autores().split(',')) == num_autores:
+            result.append(libro)
     return result
 
-def actualizar_libro():
-    pass
+def actualizar_libro(books: list, index):
 
-def guardar_libros(filename: str, books: list = None) -> bool:
+    titulo= input("Ingrese Titulo")
+    genero = input("Ingrese Genero")
+    isbn = input("Ingrese ISBN")
+    editorial = input("Ingrese Editorial")
+    autor = input("Ingrese Autor(es)")
+
+    libro = Libro(id=index, titulo=titulo, genero=genero, isbn=isbn, editorial=editorial, autores=autor)
+    
+    books[index] = libro
+
+def guardar_libros(filename, books) -> bool:
     try:
-        field_header = ['id' , 'titulo' , 'genero' , 'isbn' , 'editorial' , 'autor']
+        field_header = ['ID' , 'Titulo' , 'Genero' , 'ISBN' , 'Editorial' , 'Autor']
         with open( filename, 'w') as csv_file:
             w_csv = csv.writer(csv_file)
             w_csv.writerow(field_header)
@@ -119,6 +88,8 @@ def guardar_libros(filename: str, books: list = None) -> bool:
         return False
 
 if __name__ == "__main__":
-    program = Program('menu_e1.json')
-    program.init()
-    del program
+    libros = leer_libro('example_libro.csv')
+    listar_libros(libros)
+    libros = ordenar_libros(libros)
+    listar_libros(libros)
+    print(buscar_libro_por_isbn_titulo(libros, isbn='122-444-222'))
