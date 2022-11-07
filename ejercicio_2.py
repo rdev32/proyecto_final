@@ -1,5 +1,14 @@
 import requests
 
+def generar_info(index: int):
+    pass
+
+def show_pokemones(lista, int_start = 0, int_max = 20):
+    for i in range(int_start, min(int_start + int_max, len(lista))):
+        for l1 in generar_info(lista[i]):
+            print(l1[0], l1[1], l1[2])
+
+
 def listar_por_generacion(int_gen: int) -> list:
     req = requests.get("https://pokeapi.co/api/v2/generation/" + str(int_gen))
     with req as data:
