@@ -43,8 +43,14 @@ def listar_por_habilidad():
 def listar_por_habitad():
     pass
 
-def listar_por_tipo():
-    pass
+def listar_por_tipo(tipo: str) -> list:
+    req = requests.get("https://pokeapi.co/api/v2/type/" + tipo)
+    with req as data:
+        lista = []
+        json = data.json()
+        for result in json["pokemon"]:
+            lista.append( result["pokemon"]["url"].split("/")[-2] )
+        return list(set(lista))
 
 if __name__ == "__main__":
     pass
