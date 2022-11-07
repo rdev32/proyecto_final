@@ -40,8 +40,14 @@ def listar_por_forma(shape_str: str) -> list:
 def listar_por_habilidad():
     pass
 
-def listar_por_habitad():
-    pass
+def listar_por_habitad(habitat: str) -> list:
+    req = requests.get("https://pokeapi.co/api/v2/pokemon-habitat/" + habitat)
+    with req as data:
+        lista = []
+        json = data.json()
+        for result in json["pokemon_species"]:
+            lista.append( result["url"].split("/")[-2] )
+        return list(set(lista))
 
 def listar_por_tipo(tipo: str) -> list:
     req = requests.get("https://pokeapi.co/api/v2/type/" + tipo)
