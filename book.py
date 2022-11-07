@@ -33,5 +33,15 @@ class Libro:
     def get_autores(self):
         return self.__autores
     
+    def __str__(self):
+        return (f"""
+            ID:        {str(self.get_id())}
+            TITULO:    {str(self.get_titulo())}
+            ISBN:      {str(self.get_isbn())}
+            GENERO:    {str(self.get_genero())}
+            EDITORIAL: {str(self.get_editorial())}
+            AUTOR(ES): {str(self.get_autores())}
+        """)
+
     def __del__(self):
         pass
