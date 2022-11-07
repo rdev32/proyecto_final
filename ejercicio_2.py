@@ -64,5 +64,56 @@ def listar_por_tipo(tipo: str) -> list:
             lista.append( result["pokemon"]["url"].split("/")[-2] )
         return list(set(lista))
 
+
+
+
+menu_principal = f"1. Listar pokemons por generación\n2. Listar pokemons por forma\n3. Listar pokemons por habilidad.\n4.Listar pokemons por habitat\n5.Listar pokemons por tipo\nIngrese una opcion: "
+
+menu_level = 0
+
+def Ejecutar_Listado(menu_level, param, list_start):
+    current_list = []
+    if (menu_level == 1):
+        current_list = listar_por_generacion(int(param))
+    elif (menu_level == 2):
+        current_list = listar_por_forma(param)
+    elif (menu_level == 3):
+        current_list = listar_por_habilidad(param)
+    elif (menu_level == 4):
+        current_list = listar_por_habitad(param)
+    elif (menu_level == 5):
+        current_list = listar_por_tipo(param)
+    
+    show_pokemones(current_list,list_start)
+    
+def menu_show(number):
+    next = 0
+    param = ''
+    while True:
+        menu_level = number
+        if (next == 0):
+            param = input("Ingrese su busqueda: ").lower()
+
+            if param == 's':
+                menu_level = 0
+                break
+            
+        Ejecutar_Listado(menu_level, param, next)
+        
+        ipt = input("Escriba A para continuar o S para salir al menu`").lower()
+
+        if (ipt == "a"): 
+            next += 20
+        elif (ipt == "s"):
+            menu_level = 0
+            break
+
+        
 if __name__ == "__main__":
-    pass
+    while True:
+        if (menu_level == 0):
+            ipt = input(menu_principal)
+            if (ipt == '1' or ipt == '2' or ipt == '3' or ipt == '4' or ipt == '5'):
+                menu_show( int(ipt))
+            elif (ipt == "s"):
+                break
