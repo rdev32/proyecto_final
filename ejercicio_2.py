@@ -1,7 +1,16 @@
 import requests
 
 def generar_info(index: int):
-    pass
+    req = requests.get("https://pokeapi.co/api/v2/pokemon/" + str(index))
+    with req as data:
+        nombre = data.json()["name"]
+        url = data.json()["sprites"]["front_default"]
+        lista = []
+        
+        for v in req.json()["abilities"]:
+            lista.append( v["ability"]["name"] )
+            
+        yield nombre, url, lista
 
 def show_pokemones(lista, int_start = 0, int_max = 20):
     for i in range(int_start, min(int_start + int_max, len(lista))):
@@ -28,14 +37,32 @@ def listar_por_forma(shape_str: str) -> list:
             lista.append( result["url"].split("/")[-2] )
         return list(set(lista))
 
-def listar_por_habilidad():
-    pass
+def listar_por_habilidad(ability: str) -> list:
+    req = requests.get("https://pokeapi.co/api/v2/ability/" + ability)
+    with req as data:
+        lista = []
+        json = data.json()
+        for result in json["pokemon"]:
+            lista.append( result["pokemon"]["url"].split("/")[-2] )
+        return list(set(lista))
 
-def listar_por_habitad():
-    pass
+def listar_por_habitad(habitat: str) -> list:
+    req = requests.get("https://pokeapi.co/api/v2/pokemon-habitat/" + habitat)
+    with req as data:
+        lista = []
+        json = data.json()
+        for result in json["pokemon_species"]:
+            lista.append( result["url"].split("/")[-2] )
+        return list(set(lista))
 
-def listar_por_tipo():
-    pass
+def listar_por_tipo(tipo: str) -> list:
+    req = requests.get("https://pokeapi.co/api/v2/type/" + tipo)
+    with req as data:
+        lista = []
+        json = data.json()
+        for result in json["pokemon"]:
+            lista.append( result["pokemon"]["url"].split("/")[-2] )
+        return list(set(lista))
 
 if __name__ == "__main__":
     pass
