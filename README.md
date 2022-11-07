@@ -1,5 +1,8 @@
 # Proyecto Final Bootcamp Backend MTPE
 
+## Integrantes
+- [Juan Ochoa](https://github.com/th3y)
+
 ## Consideraciones
 El trabajo tiene las siguientes consideraciones:
 
