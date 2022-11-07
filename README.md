@@ -2,6 +2,8 @@
 
 ## Integrantes
 - [Juan Ochoa](https://github.com/th3y)
+- [Renato Monroy](https://github.com/rdev32)
+
 
 ## Consideraciones
 El trabajo tiene las siguientes consideraciones:
