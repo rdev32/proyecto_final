@@ -3,9 +3,9 @@ import os
 
 def generar_info(index: int):
     req = requests.get("https://pokeapi.co/api/v2/pokemon/" + str(index))
-    with req as data:
-        nombre = data.json()["name"]
-        url = data.json()["sprites"]["front_default"]
+    if req.status_code == requests.codes.ok:
+        nombre = req.json()["name"]
+        url = req.json()["sprites"]["front_default"]
         lista = []
         
         for v in req.json()["abilities"]:
@@ -81,7 +81,7 @@ menu_level = 0
 def Ejecutar_Listado(menu_level, param, list_start):
     current_list = []
     if (menu_level == 1):
-        current_list = listar_por_generacion(int(param))
+        current_list = listar_por_generacion(min(int(param), 8))
     elif (menu_level == 2):
         current_list = listar_por_forma(param)
     elif (menu_level == 3):
@@ -99,7 +99,7 @@ def menu_show(number):
     while True:
         menu_level = number
         if (next == 0):
-            param = input(sugerencias[menu_level - 1] + "\nEscriba la sugerencia o escriba S para regresar al menu principal: ").lower()
+            param = input(sugerencias[menu_level - 1] + "\nEscriba la sugerencia o escriba S para regresar al menu principal: ").lower().strip()
 
             if param == 's':
                 menu_level = 0
@@ -107,7 +107,7 @@ def menu_show(number):
             
         Ejecutar_Listado(menu_level, param, next)
         
-        ipt = input("Escriba A para listar los siguientes o S para salir al menu: ").lower()
+        ipt = input("Escriba A para listar los siguientes o S para salir al menu: ").lower().strip()
         os.system('cls')
         
         if (ipt == "a"): 
@@ -120,7 +120,7 @@ def menu_show(number):
 if __name__ == "__main__":
     while True:
         if (menu_level == 0):
-            ipt = input(menu_principal + "Ingrese el numero de la opcion o escriba S para salir: ").lower()
+            ipt = input(menu_principal + "Ingrese el numero de la opcion o escriba S para salir: ").lower().strip()
             if (ipt == '1' or ipt == '2' or ipt == '3' or ipt == '4' or ipt == '5'):
                 os.system('cls')
                 menu_show( int(ipt))
