@@ -30,8 +30,9 @@ def agregar_libro(books):
     books.append(libro)
 
 def eliminar_libro(books, index_list: int) -> bool:
-    if (index_list >= 0 and index_list < len(books)):
-        books.pop(index_list)
+    for book in books:
+        if book.get_id() == str(index_list):
+            books.remove(book)
 
 def ordenar_libros(books: list):
     return sorted(books, key=lambda book: book.get_titulo())
